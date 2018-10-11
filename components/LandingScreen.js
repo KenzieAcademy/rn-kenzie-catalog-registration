@@ -2,12 +2,19 @@ import React from "react";
 import { Image, Text, View, StyleSheet, Button } from "react-native";
 
 export default class LandingScreen extends React.Component {
+  static navigationOptions = {
+    title: "Home"
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to Kenzie Catalog</Text>
         <Image source={require("../assets/ka-teal.png")} style={styles.image} />
-        <Button title="Register" onPress={() => {}} />
+        <Button
+          title="Register"
+          onPress={() => this.props.navigation.navigate("Register")}
+        />
       </View>
     );
   }
@@ -15,7 +22,12 @@ export default class LandingScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center"
+    flex: 1,
+    // This is the particular shade of kenzie navy - potentially to be used for background color
+    // backgroundColor: "#00356B",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF"
   },
   welcome: {
     fontSize: 20

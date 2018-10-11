@@ -5,15 +5,18 @@ import {
   Text,
   StyleSheet,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  Button
 } from "react-native";
-import Background from "./Background";
 
-export default class UserRegistrationForm extends React.Component {
+export default class RegistrationScreen extends React.Component {
+  static navigationOptions = {
+    title: "Register"
+  };
   render() {
     return (
-      <KeyboardAvoidingView style={styles.formStyle} behavior="padding">
-        <ScrollView>
+      <ScrollView>
+        <KeyboardAvoidingView style={styles.formStyle} behavior="padding">
           <Text style={styles.labelStyle}>First Name</Text>
           <TextInput placeholder="John" style={styles.textInputStyle} />
           <Text style={styles.labelStyle}>Last Name</Text>
@@ -29,12 +32,18 @@ export default class UserRegistrationForm extends React.Component {
             style={styles.textInputStyle}
             secureTextEntry
           />
+          <Button
+            title="Submit"
+            onPress={() => this.props.navigation.navigate("Profile")}
+          />
+          {/* View is here to add some additional between keyboard and final input */}
+          <View style={{ height: 60 }} />
 
           {/* TODO: add picker for Date of Birth here */}
           {/* TODO: possible additional picker */}
           {/* TODO: possible image upload */}
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

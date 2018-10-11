@@ -1,24 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import UserRegistrationForm from "./components/UserRegistrationForm";
+import { createStackNavigator } from "react-navigation";
+
+import RegistrationForm from "./components/RegistrationScreen";
 import LandingScreen from "./components/LandingScreen";
+import ProfileScreen from "./components/ProfileScreen";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        {/* <UserRegistrationForm /> */}
-        <LandingScreen />
-      </View>
-    );
-  }
-}
+const RootStack = createStackNavigator(
+  {
+    Home: LandingScreen,
+    Register: RegistrationForm,
+    Profile: ProfileScreen
+  },
+  { initialRouteName: "Home" }
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: "#00356B",
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
+export default () => <RootStack />;
