@@ -11,7 +11,7 @@ const RootStack = createStackNavigator(
     Register: RegistrationForm,
     Profile: ProfileScreen
   },
-  { initialRouteName: "Home" }
+  { initialRouteName: "Register" }
 );
 
 export default () => <RootStack />;
