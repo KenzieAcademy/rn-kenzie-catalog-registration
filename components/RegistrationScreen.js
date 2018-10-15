@@ -140,7 +140,11 @@ export default class RegistrationScreen extends React.Component {
                 <Text style={styles.errorStyle}>{errors.role}</Text>
               ) : null}
 
-              <Button disabled={false} title="Submit" onPress={handleSubmit} />
+              <Button
+                disabled={!isValid}
+                title="Submit"
+                onPress={handleSubmit}
+              />
             </React.Fragment>
           )}
         </Formik>
