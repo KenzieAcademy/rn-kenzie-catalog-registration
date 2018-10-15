@@ -1,23 +1,31 @@
 import React from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  ScrollView,
-  Button,
-  Alert
-} from "react-native";
+import { View, TextInput, Text, StyleSheet, Button } from "react-native";
 import PickerSelect from "react-native-picker-select";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from "formik";
+import * as Yup from "yup";
+
+import Input from "./Input";
 
 export default class RegistrationScreen extends React.Component {
   static navigationOptions = {
     title: "Register"
   };
+
   render() {
+    const RegistrationSchema = Yup.object().shape({
+      firstName: Yup.string().required(),
+      lastName: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      password: Yup.string()
+        .min(3)
+        .required(),
+      phone: Yup.string().required(),
+      role: Yup.string().required()
+    });
+
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={styles.formStyle}
@@ -32,53 +40,73 @@ export default class RegistrationScreen extends React.Component {
             phone: "",
             role: ""
           }}
+          validationSchema={RegistrationSchema}
           onSubmit={values => {
             console.log(JSON.stringify(values));
             this.props.navigation.navigate("Profile", values);
           }}
         >
-          {({ handleChange, handleSubmit, values, setFieldValue }) => (
+          {({
+            handleSubmit,
+            values,
+            setFieldValue,
+            setFieldTouched,
+            errors,
+            touched,
+            isValid
+          }) => (
             <React.Fragment>
-              <Text style={styles.labelStyle}>First Name</Text>
-              <TextInput
+              <Input
+                name="firstName"
+                label="First Name"
                 value={values.firstName}
-                onChangeText={handleChange("firstName")}
+                onChange={setFieldValue}
+                onTouch={setFieldTouched}
                 placeholder="John"
-                style={styles.textInputStyle}
+                error={touched.firstName && errors.firstName}
               />
-              <Text style={styles.labelStyle}>Last Name</Text>
-              <TextInput
+              <Input
+                name="lastName"
+                label="Last Name"
                 value={values.lastName}
-                onChangeText={handleChange("lastName")}
+                onChange={setFieldValue}
+                onTouch={setFieldTouched}
                 placeholder="Doe"
-                style={styles.textInputStyle}
+                error={touched.lastName && errors.lastName}
               />
-              <Text style={styles.labelStyle}>Email</Text>
-              <TextInput
+              <Input
+                name="email"
+                label="Email"
                 value={values.email}
-                onChangeText={handleChange("email")}
+                onChange={setFieldValue}
+                onTouch={setFieldTouched}
                 placeholder="john@email.com"
+                error={touched.email && errors.email}
                 keyboardType="email-address"
-                style={styles.textInputStyle}
               />
-              <Text style={styles.labelStyle}>Password</Text>
-              <TextInput
+              <Input
+                name="password"
+                label="Password"
                 value={values.password}
-                onChangeText={handleChange("password")}
+                onChange={setFieldValue}
+                onTouch={setFieldTouched}
                 placeholder="password"
-                style={styles.textInputStyle}
+                error={touched.password && errors.password}
                 secureTextEntry
               />
-              <Text style={styles.labelStyle}>Phone</Text>
-              <TextInput
+              <Input
+                name="phone"
+                label="Phone"
                 value={values.phone}
-                onChangeText={handleChange("phone")}
+                onChange={setFieldValue}
+                onTouch={setFieldTouched}
                 placeholder="481-516-2342"
+                error={touched.phone && errors.phone}
                 keyboardType="number-pad"
-                style={styles.textInputStyle}
               />
               <Text style={styles.labelStyle}>Role</Text>
               <PickerSelect
+                name="role"
                 value={values.role}
                 items={[
                   {
@@ -103,10 +131,12 @@ export default class RegistrationScreen extends React.Component {
                   }
                 ]}
                 onValueChange={value => setFieldValue("role", value)}
+                onTouch={setFieldTouched}
                 style={{ ...pickerSelectStyles }}
               />
+              {/* {touched.role ? <Text>{error.role}</Text> : null} */}
 
-              <Button title="Submit" onPress={handleSubmit} />
+              <Button disabled={false} title="Submit" onPress={handleSubmit} />
 
               {/* TODO: possible image upload */}
             </React.Fragment>
