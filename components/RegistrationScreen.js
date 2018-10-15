@@ -23,7 +23,7 @@ export default class RegistrationScreen extends React.Component {
         .min(3)
         .required(),
       phone: Yup.string().required(),
-      role: Yup.string().required()
+      role: Yup.string("").required()
     });
 
     return (
@@ -130,15 +130,17 @@ export default class RegistrationScreen extends React.Component {
                     value: "Our Fearless Leader - Chok"
                   }
                 ]}
+                placeholder={{ label: "Select a role...", value: "" }}
                 onValueChange={value => setFieldValue("role", value)}
-                onTouch={setFieldTouched}
+                onDonePress={() => setFieldTouched("role")}
                 style={{ ...pickerSelectStyles }}
               />
-              {/* {touched.role ? <Text>{error.role}</Text> : null} */}
+
+              {touched.role ? (
+                <Text style={styles.errorStyle}>{errors.role}</Text>
+              ) : null}
 
               <Button disabled={false} title="Submit" onPress={handleSubmit} />
-
-              {/* TODO: possible image upload */}
             </React.Fragment>
           )}
         </Formik>
@@ -157,14 +159,8 @@ const styles = StyleSheet.create({
   labelStyle: {
     marginTop: 10
   },
-  textInputStyle: {
-    width: "100%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginVertical: 5,
-    padding: 5
+  errorStyle: {
+    color: "red"
   }
 });
 
