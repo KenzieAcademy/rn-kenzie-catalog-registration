@@ -6,11 +6,12 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
-  Button
+  Button,
+  Alert
 } from "react-native";
-
 import PickerSelect from "react-native-picker-select";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Formik } from "formik";
 
 export default class RegistrationScreen extends React.Component {
   static navigationOptions = {
@@ -22,62 +23,95 @@ export default class RegistrationScreen extends React.Component {
         contentContainerStyle={styles.formStyle}
         resetScrollToCoords={{ x: 0, y: 0 }}
       >
-        <Text style={styles.labelStyle}>First Name</Text>
-        <TextInput placeholder="John" style={styles.textInputStyle} />
-        <Text style={styles.labelStyle}>Last Name</Text>
-        <TextInput placeholder="Doe" style={styles.textInputStyle} />
-        <Text style={styles.labelStyle}>Email</Text>
-        <TextInput
-          placeholder="john@email.com"
-          keyboardType="email-address"
-          style={styles.textInputStyle}
-        />
-        <Text style={styles.labelStyle}>Password</Text>
-        <TextInput
-          placeholder="password"
-          style={styles.textInputStyle}
-          secureTextEntry
-        />
-        <Text style={styles.labelStyle}>Phone</Text>
-        <TextInput
-          placeholder="481-516-2342"
-          keyboardType="number-pad"
-          style={styles.textInputStyle}
-        />
-        <Text style={styles.labelStyle}>Role</Text>
-        <PickerSelect
-          items={[
-            {
-              label: "Student",
-              value: 1
-            },
-            {
-              label: "Instructor",
-              value: 2
-            },
-            {
-              label: "Studio Developer",
-              value: 3
-            },
-            {
-              label: "Operations / Recruitment",
-              value: 4
-            },
-            {
-              label: "Our Fearless Leader - Chok",
-              value: 5
-            }
-          ]}
-          onValueChange={() => {}}
-          style={{ ...pickerSelectStyles }}
-        />
+        <Formik
+          initialValues={{
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            phone: "",
+            role: ""
+          }}
+          onSubmit={values => {
+            console.log(JSON.stringify(values));
+            this.props.navigation.navigate("Profile", values);
+          }}
+        >
+          {({ handleChange, handleSubmit, values, setFieldValue }) => (
+            <React.Fragment>
+              <Text style={styles.labelStyle}>First Name</Text>
+              <TextInput
+                value={values.firstName}
+                onChangeText={handleChange("firstName")}
+                placeholder="John"
+                style={styles.textInputStyle}
+              />
+              <Text style={styles.labelStyle}>Last Name</Text>
+              <TextInput
+                value={values.lastName}
+                onChangeText={handleChange("lastName")}
+                placeholder="Doe"
+                style={styles.textInputStyle}
+              />
+              <Text style={styles.labelStyle}>Email</Text>
+              <TextInput
+                value={values.email}
+                onChangeText={handleChange("email")}
+                placeholder="john@email.com"
+                keyboardType="email-address"
+                style={styles.textInputStyle}
+              />
+              <Text style={styles.labelStyle}>Password</Text>
+              <TextInput
+                value={values.password}
+                onChangeText={handleChange("password")}
+                placeholder="password"
+                style={styles.textInputStyle}
+                secureTextEntry
+              />
+              <Text style={styles.labelStyle}>Phone</Text>
+              <TextInput
+                value={values.phone}
+                onChangeText={handleChange("phone")}
+                placeholder="481-516-2342"
+                keyboardType="number-pad"
+                style={styles.textInputStyle}
+              />
+              <Text style={styles.labelStyle}>Role</Text>
+              <PickerSelect
+                value={values.role}
+                items={[
+                  {
+                    label: "Student",
+                    value: "Student"
+                  },
+                  {
+                    label: "Instructor",
+                    value: "Instructor"
+                  },
+                  {
+                    label: "Studio Developer",
+                    value: "Studio Developer"
+                  },
+                  {
+                    label: "Operations / Recruitment",
+                    value: "Operations / Recruitment"
+                  },
+                  {
+                    label: "Our Fearless Leader - Chok",
+                    value: "Our Fearless Leader - Chok"
+                  }
+                ]}
+                onValueChange={value => setFieldValue("role", value)}
+                style={{ ...pickerSelectStyles }}
+              />
 
-        <Button
-          title="Submit"
-          onPress={() => this.props.navigation.navigate("Profile")}
-        />
+              <Button title="Submit" onPress={handleSubmit} />
 
-        {/* TODO: possible image upload */}
+              {/* TODO: possible image upload */}
+            </React.Fragment>
+          )}
+        </Formik>
       </KeyboardAwareScrollView>
     );
   }
