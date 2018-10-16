@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TextInput, Text, StyleSheet, Button } from "react-native";
+import { Text, StyleSheet, Button } from "react-native";
 import PickerSelect from "react-native-picker-select";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Formik } from "formik";
@@ -26,20 +26,31 @@ export default class RegistrationScreen extends React.Component {
       role: Yup.string("").required()
     });
 
+    const mockData = {
+      firstName: "Sam",
+      lastName: "Kane",
+      email: "sam@kenzie.academy",
+      password: "sam",
+      phone: "3173453613",
+      role: "Studio Developer"
+    };
+
+    const initialValues = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      phone: "",
+      role: ""
+    };
+
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={styles.formStyle}
         resetScrollToCoords={{ x: 0, y: 0 }}
       >
         <Formik
-          initialValues={{
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            phone: "",
-            role: ""
-          }}
+          initialValues={initialValues}
           validationSchema={RegistrationSchema}
           onSubmit={values => {
             console.log(JSON.stringify(values));
@@ -136,9 +147,9 @@ export default class RegistrationScreen extends React.Component {
                 style={{ ...pickerSelectStyles }}
               />
 
-              {touched.role ? (
+              {touched.role && (
                 <Text style={styles.errorStyle}>{errors.role}</Text>
-              ) : null}
+              )}
 
               <Button
                 disabled={!isValid}

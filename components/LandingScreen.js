@@ -23,8 +23,6 @@ export default class LandingScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // This is the particular shade of kenzie navy - potentially to be used for background color
-    // backgroundColor: "#00356B",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF"
@@ -35,6 +33,5 @@ const styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200
-    // resizeMode: "cover"
   }
 });
